@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+</head>
+<body>
+    <h1>Cart</h1>
+    <h3>Product: {{ cart_item.product.name }}</h3>
+    <p>Quantity: {{ cart_item.quantity }}</p>
+    <p>Total Amount: ${{ cart_item.quantity|cart_item.product.price }}</p>
+    <hr>
+    <h3>Subtotal: ${{ cart_item.quantity|cart_item.product.price }}</h3>
+    <h3>Discount: No Discount</h3>
+    <h3>Shipping Fee: $5</h3>
+    <h3>Gift Wrap Fee: $1</h3>
+    <h2>Total: ${{ cart_item.quantity|cart_item.product.price|add:5|add:1 }}</h2>
+</body>
+</html>

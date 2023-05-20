@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Checkout</title>
+</head>
+<body>
+    <h1>Checkout</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+        {% for product in products %}
+            <label for="{{ product.name }}_quantity">{{ product.name }} Quantity:</label>
+            <input type="number" id="{{ product.name }}_quantity" name="{{ product.name }}_quantity" value="0" min="0"><br>
+            <label for="{{ product.name }}_gift_wrap">{{ product.name }} Gift Wrap:</label>
+            <input type="checkbox" id="{{ product.name }}_gift_wrap" name="{{ product.name }}_gift_wrap"><br>
+        {% endfor %}
+        <input type="submit" value="Calculate Total">
+    </form>
+    {% if quantities %}
+        <h2>Summary</h2>
+        <ul>
+            {% for product in products %}
+                {% with quantity=quantities.product.name|default:"0" %}
+                    {% with quantity_int=quantity|add:0 %}
+                        <li>{{ product.name }} - Quantity: {{ quantity }} - Total: ${{ quantity_int * product.price }}</li>
+                    {% endwith %}
+                {% endwith %}
+            {% endfor %}
+        </ul>
+        <p>Subtotal: ${{ subtotal }}</p>
+        {% if discount_name %}
+            <p>Discount Applied: {{ discount_name }} - Amount: ${{ discount_amount }}</p>
+        {% endif %}
+        <p>Shipping Fee: ${{ shipping_fee }}</p>
+        <p>Gift Wrap Fee: ${{ gift_wrap_fee }}</p>
+        <h3>Total: ${{ total }}</h3>
+    {% endif %}
+</body>
+</html>
